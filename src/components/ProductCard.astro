@@ -1,0 +1,15 @@
+---
+const { brand, model, puffs, min_price, suggested_price, image, category, available } = Astro.props;
+---
+
+<div class="bg-white rounded shadow hover:shadow-lg transition flex flex-col">
+  <img 
+    src={image} 
+    alt={`${brand} ${model}`} 
+    class="clickable-img w-full h-52 md:h-60 object-scale-down rounded cursor-zoom-in"
+  />
+  <div class="p-4">
+    <h2 class="text-sm font-semibold">{brand} {model}</h2>
+    <p class="text-[12px] text-gray-500">Puffs: {puffs}</p>
+  </div>
+</div>

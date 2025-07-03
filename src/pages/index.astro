@@ -1,11 +1,56 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import products from '../data/products.json';
+import ProductCard from '../components/ProductCard.astro';
+import '../styles/global.css';
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Catálogo de Productos</title>
+  </head>
+  <body class="min-h-screen bg-gray-100 p-6">
+    <h1 class="text-3xl font-bold text-center mb-6"></h1>
+
+    <div class="max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-3 gap-4 md:gap-6">
+      {products.map(product => (
+        <ProductCard 
+          key={product.id}
+          {...product}
+        />
+      ))}
+    </div>
+
+    <!-- Modal de imagen -->
+    <div id="image-modal" class="hidden fixed inset-0 bg-black/80 bg-opacity-80 flex items-center justify-center z-50">
+      <span id="close-modal" class="absolute top-4 right-4 text-white text-2xl cursor-pointer select-none">&times;</span>
+      <img id="modal-img" src="" alt="Imagen grande" class="max-w-full max-h-10/12 rounded shadow-lg" />
+    </div>
+
+    <!-- Script para abrir/cerrar modal -->
+    <script is:inline>
+      const modal = document.getElementById('image-modal');
+      const modalImg = document.getElementById('modal-img');
+      const closeModal = document.getElementById('close-modal');
+
+      document.querySelectorAll('.clickable-img').forEach(img => {
+        img.addEventListener('click', () => {
+          modalImg.src = img.src;
+          modal.classList.remove('hidden');
+        });
+      });
+
+      closeModal.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        modalImg.src = '';
+      });
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.add('hidden');
+          modalImg.src = '';
+        }
+      });
+    </script>
+  </body>
+</html>
